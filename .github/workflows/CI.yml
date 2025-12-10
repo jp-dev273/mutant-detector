@@ -24,17 +24,11 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Test and Package (maven)
-        run: mvn -B -e -T 1C -P prod clean package
-
-      - name: See secrets
-        run: echo ${{secrets.REGISTRY_USER}} ${{secrets.REGISTRY_PASS}}
+      - name: Login to Docker registry
+        run: echo ${{ secrets.PACKAGES_TOKEN }} | docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} --password-stdin
         
       - name: Build Docker image
-        run: docker build -t ${{ secrets.REGISTRY_USER }}/mutant-detector:latest .
-
-      - name: Login to Docker registry
-        run: echo ${{ secrets.REGISTRY_PASS }} | docker login -u ${{ secrets.REGISTRY_USER }} --password-stdin
+        run: docker build -t ghcr.io/${{ secrets.REGISTRY_USER }}/mutant-detector:latest .     
       
       - name: Push image
-        run: docker push ${{ secrets.REGISTRY_USER }}/mutant-detector:latest
+        run: docker push ghcr.io/${{ secrets.REGISTRY_USER }}/mutant-detector:latest
