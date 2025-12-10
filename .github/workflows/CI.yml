@@ -34,4 +34,4 @@ jobs:
         run: echo ${{ secrets.PACKAGES_TOKEN }} | docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} --password-stdin
       
       - name: Push image
-        run: docker push ghcr.io/jp-dev273/mutant-detector:latest
+        run: docker push ghcr.io/${{ secrets.REGISTRY_USER }}/mutant-detector:latest
