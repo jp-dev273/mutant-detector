@@ -1,7 +1,5 @@
 spring:
   application:
     name: mutant-detector
-  profiles:
-    active: '@spring.profiles.active@'
   liquibase:
     change-log: classpath:/config/liquibase/master.yml

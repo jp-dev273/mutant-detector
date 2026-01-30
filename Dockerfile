@@ -1,14 +1,16 @@
-FROM maven:3.9.6-eclipse-temurin-21 AS build
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn -T 1C -e -B -P prod clean install
-
-# Stage 2: Runtime
+# Runtime only image
 FROM eclipse-temurin:21-jre
-LABEL org.opencontainers.image.source=https://github.com/jp-dev273/mutant-detector
+LABEL org.opencontainers.image.source="https://github.com/jp-dev273/mutant-detector"
+
+# Add user for application-scope
+RUN useradd -r mutant-detector
 
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
+
+COPY target/*.jar app.jar
+
+ENV SPRING_PROFILES_ACTIVE=prod
+
+USER mutant-detector
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
