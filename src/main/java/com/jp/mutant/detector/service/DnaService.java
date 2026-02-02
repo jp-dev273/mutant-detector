@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class DnaService {
 
+    private final static int MIN_REQUIRED_MUTANT_DNA_SEQUENCES = 2;
+
     private final DnaResultRepository dnaResultRepository;
 
     public DnaService(DnaResultRepository dnaResultRepository) {
@@ -36,6 +38,10 @@ public class DnaService {
                         letter == matrix[i][j+2] &&
                         letter == matrix[i][j+3]) {
                     sequences++;
+
+                    if (sequences >= MIN_REQUIRED_MUTANT_DNA_SEQUENCES) {
+                        return true;
+                    }
                 }
 
                 // Vertical ↓
@@ -44,6 +50,10 @@ public class DnaService {
                         letter == matrix[i+2][j] &&
                         letter == matrix[i+3][j]) {
                     sequences++;
+
+                    if (sequences >= MIN_REQUIRED_MUTANT_DNA_SEQUENCES) {
+                        return true;
+                    }
                 }
 
                 // Diagonal ↘
@@ -52,6 +62,10 @@ public class DnaService {
                         letter == matrix[i+2][j+2] &&
                         letter == matrix[i+3][j+3]) {
                     sequences++;
+
+                    if (sequences >= MIN_REQUIRED_MUTANT_DNA_SEQUENCES) {
+                        return true;
+                    }
                 }
 
                 // Diagonal ↙
@@ -60,11 +74,10 @@ public class DnaService {
                         letter == matrix[i+2][j-2] &&
                         letter == matrix[i+3][j-3]) {
                     sequences++;
-                }
 
-                // Si ya hay 2 o más, es mutante
-                if (sequences >= 2) {
-                    return true;
+                    if (sequences >= MIN_REQUIRED_MUTANT_DNA_SEQUENCES) {
+                        return true;
+                    }
                 }
             }
         }
