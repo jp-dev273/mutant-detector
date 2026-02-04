@@ -14,9 +14,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DnaController.class)
@@ -47,7 +47,10 @@ class DnaControllerTest {
                                     { "dna": ["ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"] }
                                 """
                         )
-        ).andExpect(status().isOk());
+        )
+                .andExpect(status().isNoContent())
+                .andExpect(jsonPath("$").doesNotExist())
+        ;
     }
 
     @Test

@@ -26,6 +26,6 @@ public class DnaController {
         if (result == DnaRaze.HUMAN) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
